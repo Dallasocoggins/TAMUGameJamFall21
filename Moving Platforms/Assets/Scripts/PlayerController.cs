@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // I kinda put a million variables here, sorry about that
+    // I tried to clarify what each one is for in the comments
+
+
     // Max horizontal speed
     public float speed;
 
@@ -35,6 +39,13 @@ public class PlayerController : MonoBehaviour
     // When we do a box cast to determine if we are next to a wall, how far we shave off the top so we don't mistake the moving platform we are standing on for a wall
     // Make this number bigger if there are fast moving vertical platforms in the level
     public float verticalMargin;
+
+    // The disatnce at which wallclimb becomes active
+    // Make this larger if there are fast moving platforms
+    public float wallClimbMargin;
+
+    // The distance at which the player is considered grounded
+    public float groundMargin;
 
 
     [SerializeField]
@@ -75,6 +86,10 @@ public class PlayerController : MonoBehaviour
     // How many dashes we have left
     private int dashesLeft;
 
+    // Not sure if this should be public or private
+    // Where you go when you respawn
+    public Vector3 checkpoint;
+
 
     // Start is called before the first frame update
     void Start()
@@ -84,6 +99,7 @@ public class PlayerController : MonoBehaviour
         playerVisual = transform.GetChild(0);
         facingRight = true;
         gravity = rb.gravityScale;
+        checkpoint = transform.position;
     }
 
     // Update is called once per frame
@@ -256,11 +272,30 @@ public class PlayerController : MonoBehaviour
             dashed = false;
     }
 
+    #region dying and respawing
+    public void Die()
+    {
+        Respawn();
+    }
+
+    public void Respawn()
+    {
+        transform.position = checkpoint;
+
+        // reset everything
+        rb.velocity = new Vector3(0, 0, 0);
+        jumpsLeft = 0;
+        timeAfterWallJump = 0;
+        dashesLeft = 0;
+        timeAfterDash = 0;
+    }
+    #endregion
+
     #region wall checks
     // true if the player is standing on the ground
     private bool IsGrounded()
     {
-        float margin = 0.05f;
+        float margin = groundMargin;
         Vector2 point = collider.bounds.center;
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(point, collider.bounds.size, 0f, Vector2.down, margin, platformLayerMask);
         bool grounded = raycastHit2D.collider ? raycastHit2D.collider.CompareTag("Platform") || raycastHit2D.collider.CompareTag("Moving Platform") : false;
@@ -277,7 +312,7 @@ public class PlayerController : MonoBehaviour
     // true if there is a wall on the player's left
     private bool NextToLeftWall()
     {
-        float margin = 0.05f;
+        float margin = wallClimbMargin;
         Vector2 point = collider.bounds.center;
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(point, BoxSizeVerticalSmaller(), 0f, Vector2.left, margin, platformLayerMask);
         bool wall = raycastHit2D.collider ? raycastHit2D.collider.CompareTag("Platform") || raycastHit2D.collider.CompareTag("Moving Platform") : false;
@@ -288,7 +323,7 @@ public class PlayerController : MonoBehaviour
     // true if there is a wall on the player's right
     private bool NextToRightWall()
     {
-        float margin = 0.05f;
+        float margin = wallClimbMargin;
         Vector2 point = collider.bounds.center;
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(point, BoxSizeVerticalSmaller(), 0f, Vector2.right, margin, platformLayerMask);
         bool wall = raycastHit2D.collider ? raycastHit2D.collider.CompareTag("Platform") || raycastHit2D.collider.CompareTag("Moving Platform") : false;
@@ -299,7 +334,7 @@ public class PlayerController : MonoBehaviour
     // Similar to IsGrounded(), but only true for moving platforms
     private bool OnMovingPlatform()
     {
-        float margin = 0.05f;
+        float margin = groundMargin;
         Vector2 point = collider.bounds.center;
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(point, collider.bounds.size, 0f, Vector2.down, margin, platformLayerMask);
         bool grounded = raycastHit2D.collider ? raycastHit2D.collider.CompareTag("Moving Platform") : false;
@@ -362,7 +397,7 @@ public class PlayerController : MonoBehaviour
     // Helper methods
     private RaycastHit2D MovingPlatformRayDown()
     {
-        float margin = 0.05f;
+        float margin = groundMargin;
         Vector2 point = collider.bounds.center;
         return Physics2D.BoxCast(point, collider.bounds.size, 0f, Vector2.down, margin, platformLayerMask); 
     }
@@ -370,14 +405,14 @@ public class PlayerController : MonoBehaviour
     // Looser margins here to ensure you get a better grip
     private RaycastHit2D MovingPlatformRayLeft()
     {
-        float margin = 0.1f;
+        float margin = wallClimbMargin;
         Vector2 point = collider.bounds.center;
         return Physics2D.BoxCast(point, BoxSizeVerticalSmaller(), 0f, Vector2.left, margin, platformLayerMask);
     }
 
     private RaycastHit2D MovingPlatformRayRight() 
     {
-        float margin = 0.1f;
+        float margin = wallClimbMargin;
         Vector2 point = collider.bounds.center;
         return Physics2D.BoxCast(point, BoxSizeVerticalSmaller(), 0f, Vector2.right, margin, platformLayerMask);
     }
@@ -406,7 +441,13 @@ public class PlayerController : MonoBehaviour
             collision.gameObject.SendMessage("Collect"); // collision.gameObject gets the game object the Collider 2D is attached to (the power-up)
                                                          // gameObject then calls the function Collect() by using its own sendMessage() method
         }
-        
+
+        else if (collision.CompareTag("Obstacle"))
+        {
+            Debug.Log("You died!");
+            Die();
+        }
+
     }
 
 }
