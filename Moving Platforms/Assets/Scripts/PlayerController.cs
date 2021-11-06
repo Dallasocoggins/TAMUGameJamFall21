@@ -27,6 +27,10 @@ public class PlayerController : MonoBehaviour
     // How long we ignore user horizontal input and wall stickyness
     public float wallJumpCooldown;
 
+    // The speed lmit for falling down walls
+    // Needs to be positive
+    public float wallSlideSpeed;
+
     // How long (time) we want our dash to last
     public float dashTimeLength;
 
@@ -223,6 +227,9 @@ public class PlayerController : MonoBehaviour
                     movement = horizontalJumpSpeed;
                 if (NextToRightWall())
                     movement = -horizontalJumpSpeed;
+
+                if(MovingPlatformWall())
+                       movement += ((MovingPlatformController)(MovingPlatformWall().GetComponentInParent(typeof(MovingPlatformController)))).Velocity().x;
             }
             rb.velocity = new Vector2(movement, jumpHeight);
             jumped = false;
@@ -233,31 +240,39 @@ public class PlayerController : MonoBehaviour
         {
             // The speed at which a vertically moving platform may be moving at
             float platformSpeed = 0f;
+            float speedLimit = -wallSlideSpeed;
             // If we are on a moving platform's side
             if (MovingPlatformWall() && wallClimb)
             {
                 // Very similar to what we did with movement
                 platformSpeed = ((MovingPlatformController)(MovingPlatformWall().GetComponentInParent(typeof(MovingPlatformController)))).Velocity().y;
+                speedLimit += platformSpeed;
             }
             if ((NextToWall() && timeAfterWallJump <= 0) && wallClimb)
             {
-                rb.velocity = new Vector2(movement, platformSpeed);
+                // Remember, we are sliding in the negative y direction
+                if (rb.velocity.y < speedLimit)
+                {
+                    rb.velocity = new Vector2(movement, speedLimit);
+                }
+                else
+                {
+                    rb.velocity = new Vector2(movement, rb.velocity.y);
+                }
             }
-            else if (timeAfterWallJump > 0)
-            {
-                // Don't set our speed equal to the platform's if we are jumping away from it
-                rb.velocity = new Vector2(movement, rb.velocity.y);
-            }
+
             else
             {
-                rb.velocity = new Vector2(movement, rb.velocity.y + platformSpeed);
+                rb.velocity = new Vector2(movement, rb.velocity.y);
             }
         }
 
-        // If you are sticking to a wall or dashing
-        if (((NextToWall() && timeAfterWallJump <= 0) && wallClimb) || timeAfterDash > 0)
+
+        // If we are dashing
+        if (timeAfterDash > 0)
         {
             rb.gravityScale = 0;
+            rb.velocity = new Vector2(movement, 0);
         }
         else
         {
