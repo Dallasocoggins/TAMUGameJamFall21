@@ -194,6 +194,16 @@ public class PlayerController : MonoBehaviour
 
         #endregion
 
+        // I was having a wierd issue where if you hold down move while next to a wall, you don't fall
+        // This seems to fix that
+        if (NextToWall() && timeAfterWallJump <= 0)
+        {
+            if (NextToLeftWall() && movement < 0 || NextToRightWall() && movement > 0)
+            {
+                movement = 0;
+            }
+        }
+
         // If we are on top of a moving platform or clinging to one but not dashing, we should change movement so that we "stick" to the surface horizontally
         // Put this part last so the way you are facing is not affected by this
         if (timeAfterWallJump <= 0 && (OnMovingPlatform() || (MovingPlatformWall() && wallClimb)) && timeAfterDash <= 0)

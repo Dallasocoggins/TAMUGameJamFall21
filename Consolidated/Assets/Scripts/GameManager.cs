@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     public GameObject player2;
     public Transform P2pos;
 
+    public GameObject audioManager;
+    private float musicTime;
+
     // The list of moving objects associated with player 1
     // Note: if we ever change scenes, this and the next list need to be reset
     public List<MovingObject> player1MovingObjects;
@@ -46,13 +49,20 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
+        // The music waits a second before coming in, because otherwise it can be a little off
+        musicTime = 119;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        // throw new NotImplementedException();
+        // I had some issues where the music didn't quite line up with the moving platform movement, so I decided to let GameManager take care of repeating it
+        if (musicTime >= 120)
+        {
+            ((AudioSource)audioManager.GetComponent(typeof(AudioSource))).Play();
+            musicTime = 0;
+        }
+        musicTime += Time.deltaTime;
     }
 
     // When a moving object registers itself with the game manager
