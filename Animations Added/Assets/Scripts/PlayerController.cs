@@ -90,6 +90,14 @@ public class PlayerController : MonoBehaviour
     // How many dashes we have left
     private int dashesLeft;
 
+    // What powerup the player is holding
+    // Can be "slow", "skip", "speed", "pause", "rewind"
+    // Not sure whether this should be public or private
+    public string powerUp;
+
+    // Your options
+    private string[] powerUpOptions = { "slow", "speed" }; //{ "slow", "skip", "speed", "pause", "rewind" };
+
     private CharacterController controller;
 
     // Not sure if this should be public or private
@@ -112,7 +120,7 @@ public class PlayerController : MonoBehaviour
 
         controller = gameObject.GetComponent<CharacterController>();
     }
-
+    
     public void OnMove(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<float>();
@@ -140,7 +148,9 @@ public class PlayerController : MonoBehaviour
             dashed = context.action.triggered;
         }
     }
-
+    
+    
+    
     // Update is called once per frame
     // Input collection and animation
     void Update()
@@ -480,8 +490,8 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("You hit a power-up");
 
-            GameManager.currentPowerUp = GameManager.powerUpOptions[UnityEngine.Random.Range(0, GameManager.powerUpOptions.Length)];
-            Debug.Log(GameManager.currentPowerUp);
+            powerUp = powerUpOptions[UnityEngine.Random.Range(0, powerUpOptions.Length)];
+            Debug.Log("You got "+powerUp);
 
             collision.gameObject.SendMessage("Collect"); // collision.gameObject gets the game object the Collider 2D is attached to (the power-up)
                                                          // gameObject then calls the function Collect() by using its own sendMessage() method
@@ -497,7 +507,24 @@ public class PlayerController : MonoBehaviour
 
     private void UsePower()
     {
-        Debug.Log("Power used pew pew");
+        if (powerUp != "")
+        {
+            Debug.Log("Using power " + powerUp);
+
+            // (isPlayerOne) xor (use power up on opponent) = (use power up on player one)
+            bool onPlayerOne = isPlayerOne ^ (powerUp == "speed" || false);
+
+
+            if (GameManager.instance.UsePowerUp(powerUp, onPlayerOne))
+            {
+                powerUp = "";
+                Debug.Log("Power used pew pew");
+            }
+            else
+            {
+                Debug.Log("Unable to use power " + powerUp);
+            }
+        }
 
     }
 

@@ -12,10 +12,22 @@ public class GameManager : MonoBehaviour
     // VARIABLES
     public static GameManager instance;
 
-    public static string[] powerUpOptions = { "slow", "skip", "speed",
-                                        "pause", "rewind" };
+    public string[] powerUpOptions = { "slow", "skip", "speed", "pause", "rewind" };
 
-    public static string currentPowerUp;
+    // Stores what power up is in effect
+    private string currentPowerUp;
+
+    // True if the power up is being applied dto player 1
+    private bool powerUpOnPlayer1;
+
+    // How long the power up will last for
+    private float powerUpTime;
+
+    // How long power ups last
+    public float powerUpLength;
+
+    // How much to slow down / speed up things by
+    public float timeSlowFactor;
 
     public GameObject player1;
     public Transform P1pos;
@@ -51,6 +63,8 @@ public class GameManager : MonoBehaviour
     {
         // The music waits a second before coming in, because otherwise it can be a little off
         musicTime = 119;
+
+        currentPowerUp = "";
     }
 
     // Update is called once per frame
@@ -63,6 +77,27 @@ public class GameManager : MonoBehaviour
             musicTime = 0;
         }
         musicTime += Time.deltaTime;
+
+
+        if (powerUpTime > 0)
+        {
+            powerUpTime -= Time.deltaTime;
+        }
+
+        else if (currentPowerUp != "")
+        {
+            if (currentPowerUp == "slow" || currentPowerUp == "speed")
+            {
+                List<MovingObject> movingObjects = powerUpOnPlayer1 ? player1MovingObjects : player2MovingObjects;
+
+                foreach (MovingObject element in movingObjects)
+                {
+                    element.SetSpeedMultiplier(1);
+                }
+            }
+
+            currentPowerUp = "";
+        }
     }
 
     // When a moving object registers itself with the game manager
@@ -75,15 +110,50 @@ public class GameManager : MonoBehaviour
     }
 
     #region powerup
-    public void CollectPowerUp()
+
+    // Takes in the string saying what power up the player is trying to use, and who to use it on
+    // If we can't apply the powerup right now, returns false
+    // If we sucessfully apply the powerup, returns true
+    public bool UsePowerUp(string powerUp, bool onPlayerOne)
     {
-        currentPowerUp = powerUpOptions[UnityEngine.Random.Range(0, powerUpOptions.Length)];
-        
-        Debug.Log("currentPowerUp: " + currentPowerUp);
+        if (currentPowerUp == "")
+        {
+            if (powerUp == "slow")
+            {
+                List<MovingObject> movingObjects = onPlayerOne ? player1MovingObjects : player2MovingObjects;
 
+                foreach (MovingObject element in movingObjects)
+                {
+                    element.SetSpeedMultiplier(1 / timeSlowFactor);
+                }
+            }
+            else if (powerUp == "speed")
+            {
+                List<MovingObject> movingObjects = onPlayerOne ? player1MovingObjects : player2MovingObjects;
+
+                foreach (MovingObject element in movingObjects)
+                {
+                    element.SetSpeedMultiplier(timeSlowFactor);
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+            currentPowerUp = powerUp;
+            powerUpOnPlayer1 = onPlayerOne;
+            powerUpTime = powerUpLength;
+
+            return true;
+        }
+
+        return false;
     }
-    #endregion powerup
 
+
+    // Since I did the power ups a little differently, I commented this out
+    /*
     public void usePowerUp(GameObject Player)
     {
         GameObject target = null;
@@ -105,10 +175,58 @@ public class GameManager : MonoBehaviour
         stopTime(target);
 
     }
+    */
+
+    #endregion powerup
+
+    
 
     public void stopTime(GameObject p)
     {
         p.GetComponent<PlayerController>().stopTime();
     }
 
+
+    #region player input
+    public void OnMoveP1(InputAction.CallbackContext context)
+    {
+        player1.GetComponent<PlayerController>().OnMove(context);
+    }
+
+    public void OnJumpP1(InputAction.CallbackContext context)
+    {
+        player1.GetComponent<PlayerController>().OnJump(context);
+    }
+
+    public void OnPowerP1(InputAction.CallbackContext context)
+    {
+        player1.GetComponent<PlayerController>().OnPower(context);
+    }
+
+    public void OnDashP1(InputAction.CallbackContext context)
+    {
+        player1.GetComponent<PlayerController>().OnDash(context);
+    }
+
+
+    public void OnMoveP2(InputAction.CallbackContext context)
+    {
+        player2.GetComponent<PlayerController>().OnMove(context);
+    }
+
+    public void OnJumpP2(InputAction.CallbackContext context)
+    {
+        player2.GetComponent<PlayerController>().OnJump(context);
+    }
+
+    public void OnPowerP2(InputAction.CallbackContext context)
+    {
+        player2.GetComponent<PlayerController>().OnPower(context);
+    }
+
+    public void OnDashP2(InputAction.CallbackContext context)
+    {
+        player2.GetComponent<PlayerController>().OnDash(context);
+    }
+    #endregion
 }

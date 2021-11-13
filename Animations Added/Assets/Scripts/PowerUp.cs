@@ -21,7 +21,6 @@ public class PowerUp : MonoBehaviour
     {
 
         Destroy(this.gameObject);
-        GameManager.instance.CollectPowerUp();
         
     }
 
