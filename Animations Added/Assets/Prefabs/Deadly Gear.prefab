@@ -144,5 +144,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 1
-  player1Area: 1
+  player1Area: Player 1 Area
   rotationSpeed: 360

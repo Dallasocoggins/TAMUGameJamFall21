@@ -13,4 +13,8 @@ public abstract class MovingObject : MonoBehaviour
 
     // true if associated with player 1, false if associated with player 2
     public abstract bool IsPlayer1Area();
+
+    // For synchronization with each other and the music
+    // Resets the position back to what it was initially
+    public abstract void Reset();
 }

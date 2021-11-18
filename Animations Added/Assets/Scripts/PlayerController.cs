@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour
     // Ex: 1 for double jump, 2 for triple jump, 0 for normal
     public int extraJumps;
 
+    // The coyote time thing we talked about
+    // If you jump within this long of leaving the floor, it doesn't count against your double jump
+    public float coyoteTimeLength;
+
     // How fast you jump away from walls
     public float horizontalJumpSpeed;
 
@@ -52,6 +56,9 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
 
+    // The game object storing all the checkpoints
+    public GameObject checkpoints;
+
     [SerializeField]
     LayerMask platformLayerMask;
 
@@ -74,6 +81,9 @@ public class PlayerController : MonoBehaviour
 
     // Keeps track of how many more times the user can jump
     private int jumpsLeft;
+
+    // Coyote time delay
+    private float coyoteTime;
 
     // Keeps track of a "cooldown" period, where we ignore the user's horizontal input and wall-stickyness
     private float timeAfterWallJump;
@@ -100,9 +110,8 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController controller;
 
-    // Not sure if this should be public or private
-    // Where you go when you respawn
-    public Vector3 checkpoint;
+    // The index of where you go when you respawn
+    private int checkpoint;
 
     [SerializeField]
     private bool isPlayerOne;
@@ -116,7 +125,8 @@ public class PlayerController : MonoBehaviour
         playerVisual = transform.GetChild(0);
         facingRight = true;
         gravity = rb.gravityScale;
-        checkpoint = transform.position;
+        checkpoint = 0;
+        checkpoints.transform.GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("open", true);
 
         controller = gameObject.GetComponent<CharacterController>();
     }
@@ -194,6 +204,7 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("Hrzntal_Speed", Mathf.Abs(movement));
         animator.SetBool("IsJumping", jumped);
+        animator.SetBool("InAir", !(NextToWall() || IsGrounded()));
 
         if ((movement < 0 && facingRight) || (movement > 0 && !facingRight))
             transform.Rotate(0f, 180f, 0f);
@@ -208,9 +219,9 @@ public class PlayerController : MonoBehaviour
 
         // I was having a wierd issue where if you hold down move while next to a wall, you don't fall
         // This seems to fix that
-        if (NextToWall() && timeAfterWallJump <= 0)
+        if (timeAfterWallJump <= 0 && !OnMovingPlatform())
         {
-            if (NextToLeftWall() && movement < 0 || NextToRightWall() && movement > 0)
+            if (NextToLeftHitbox() && movement < 0 || NextToRightHitbox() && movement > 0)
             {
                 movement = 0;
             }
@@ -241,6 +252,16 @@ public class PlayerController : MonoBehaviour
                 timeAfterDash = 0;
         }
 
+
+        if (IsGrounded())
+        {
+            coyoteTime = coyoteTimeLength;
+        }
+        else if (coyoteTime > 0)
+        {
+            coyoteTime -= Time.deltaTime;
+        }
+
         // Make the user dash
         // Note: if for whatever reason the user dashes and jumps in the same frame, I want the jump to take priority
         if (jumped)
@@ -254,7 +275,7 @@ public class PlayerController : MonoBehaviour
                 movement *= -1;
             rb.gravityScale = 0;
             rb.velocity = new Vector2(movement, 0);
-            if (!IsGrounded() && !(NextToWall()))
+            if (!IsGrounded())
                 dashesLeft--;
         }
 
@@ -272,39 +293,73 @@ public class PlayerController : MonoBehaviour
                 if (MovingPlatformWall())
                     movement += ((MovingPlatformController)(MovingPlatformWall().GetComponentInParent(typeof(MovingPlatformController)))).Velocity().x;
             }
-            rb.velocity = new Vector2(movement, jumpHeight);
+            if (jumpHeight > rb.velocity.y)
+            {
+                rb.velocity = new Vector2(movement, jumpHeight);
+            }
+            else
+            {
+                rb.velocity = new Vector2(movement, rb.velocity.y);
+            }
             jumped = false;
-            if (!IsGrounded())
+            if (!IsGrounded() && coyoteTime <= 0)
+            {
                 jumpsLeft--;
+            }
+            coyoteTime = 0;
         }
         else
         {
             // The speed at which a vertically moving platform may be moving at
             float platformSpeed = 0f;
-            float speedLimit = -wallSlideSpeed;
-            // If we are on a moving platform's side
-            if (MovingPlatformWall() && wallClimb)
+
+            if (IsGrounded())
             {
-                // Very similar to what we did with movement
-                platformSpeed = ((MovingPlatformController)(MovingPlatformWall().GetComponentInParent(typeof(MovingPlatformController)))).Velocity().y;
-                speedLimit += platformSpeed;
-            }
-            if ((NextToWall() && timeAfterWallJump <= 0) && wallClimb)
-            {
-                // Remember, we are sliding in the negative y direction
-                if (rb.velocity.y < speedLimit)
+                if (OnMovingPlatform())
                 {
-                    rb.velocity = new Vector2(movement, speedLimit);
+                    platformSpeed = ((MovingPlatformController)(MovingPlatform().GetComponentInParent(typeof(MovingPlatformController)))).Velocity().y;
+                    if (rb.velocity.y <= 0)
+                    {
+                        rb.velocity = new Vector2(movement, platformSpeed);
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector2(movement, rb.velocity.y);
+                    }
                 }
                 else
                 {
                     rb.velocity = new Vector2(movement, rb.velocity.y);
                 }
             }
-
             else
             {
-                rb.velocity = new Vector2(movement, rb.velocity.y);
+                // The vertical fall speed we can't go over
+                float speedLimit = -wallSlideSpeed;
+                // If we are on a moving platform's side
+                if (MovingPlatformWall() && wallClimb)
+                {
+                    // Very similar to what we did with movement
+                    platformSpeed = ((MovingPlatformController)(MovingPlatformWall().GetComponentInParent(typeof(MovingPlatformController)))).Velocity().y;
+                    speedLimit += platformSpeed;
+                }
+                if ((NextToWall() && timeAfterWallJump <= 0) && wallClimb)
+                {
+                    // Remember, we are sliding in the negative y direction
+                    if (rb.velocity.y < speedLimit)
+                    {
+                        rb.velocity = new Vector2(movement, speedLimit);
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector2(movement, rb.velocity.y);
+                    }
+                }
+
+                else
+                {
+                    rb.velocity = new Vector2(movement, rb.velocity.y);
+                }
             }
         }
 
@@ -335,7 +390,7 @@ public class PlayerController : MonoBehaviour
 
     public void Respawn()
     {
-        transform.position = checkpoint;
+        transform.position = checkpoints.transform.GetChild(checkpoint).position;
 
         // reset everything
         rb.velocity = new Vector3(0, 0, 0);
@@ -395,6 +450,27 @@ public class PlayerController : MonoBehaviour
         bool grounded = raycastHit2D.collider ? raycastHit2D.collider.CompareTag("Moving Platform") : false;
 
         return grounded;
+    }
+
+    // To try to fix the problem where holding down move next to a wall
+    private bool NextToLeftHitbox()
+    {
+        float margin = wallClimbMargin;
+        Vector2 point = collider.bounds.center;
+        RaycastHit2D raycastHit2D = Physics2D.BoxCast(point, collider.bounds.size, 0f, Vector2.left, margin, platformLayerMask);
+        bool wall = raycastHit2D.collider;
+
+        return wall;
+    }
+
+    private bool NextToRightHitbox()
+    {
+        float margin = wallClimbMargin;
+        Vector2 point = collider.bounds.center;
+        RaycastHit2D raycastHit2D = Physics2D.BoxCast(point, collider.bounds.size, 0f, Vector2.right, margin, platformLayerMask);
+        bool wall = raycastHit2D.collider;
+
+        return wall;
     }
     #endregion
 
@@ -488,10 +564,15 @@ public class PlayerController : MonoBehaviour
         // case if it runs into a power-up
         if (collision.CompareTag("Power-up"))
         {
-            Debug.Log("You hit a power-up");
-
             powerUp = powerUpOptions[UnityEngine.Random.Range(0, powerUpOptions.Length)];
-            Debug.Log("You got "+powerUp);
+            if (isPlayerOne)
+            {
+                Debug.Log("Player 1 collected powerup " + powerUp);
+            }
+            else
+            {
+                Debug.Log("Player 2 collected powerup " + powerUp);
+            }
 
             collision.gameObject.SendMessage("Collect"); // collision.gameObject gets the game object the Collider 2D is attached to (the power-up)
                                                          // gameObject then calls the function Collect() by using its own sendMessage() method
@@ -503,26 +584,44 @@ public class PlayerController : MonoBehaviour
             Die();
         }
 
+        else if (collision.CompareTag("Checkpoint"))
+        {
+            int index = collision.gameObject.transform.GetSiblingIndex(); // Assumes that the game object we touched is a child of checkpoints
+            if (index > checkpoint)
+            {
+                checkpoint = index;
+            }
+
+            collision.gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("open", true);
+        }
+
     }
 
     private void UsePower()
     {
         if (powerUp != "")
         {
-            Debug.Log("Using power " + powerUp);
-
             // (isPlayerOne) xor (use power up on opponent) = (use power up on player one)
             bool onPlayerOne = isPlayerOne ^ (powerUp == "speed" || false);
 
 
             if (GameManager.instance.UsePowerUp(powerUp, onPlayerOne))
             {
+                Debug.Log("Activating powerup " + powerUp);
+
                 powerUp = "";
-                Debug.Log("Power used pew pew");
+                if (isPlayerOne)
+                {
+                    Debug.Log("Clear player 1 powerup");
+                }
+                else
+                {
+                    Debug.Log("Clear player 2 powerup");
+                }
             }
             else
             {
-                Debug.Log("Unable to use power " + powerUp);
+                //Debug.Log("Unable to use power " + powerUp);
             }
         }
 

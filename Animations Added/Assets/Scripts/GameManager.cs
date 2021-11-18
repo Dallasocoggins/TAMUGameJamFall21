@@ -61,8 +61,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // The music waits a second before coming in, because otherwise it can be a little off
-        musicTime = 119;
+        // The music used to wait a second before coming in, because otherwise it can be a little off
+        // This should be fixed with reset now
+        musicTime = 0;
 
         currentPowerUp = "";
     }
@@ -75,6 +76,20 @@ public class GameManager : MonoBehaviour
         {
             ((AudioSource)audioManager.GetComponent(typeof(AudioSource))).Play();
             musicTime = 0;
+
+            // To synchronize with the music
+            if (currentPowerUp == "")
+            {
+                foreach (MovingObject element in player1MovingObjects)
+                {
+                    element.Reset();
+                }
+
+                foreach (MovingObject element in player2MovingObjects)
+                {
+                    element.Reset();
+                }
+            }
         }
         musicTime += Time.deltaTime;
 
@@ -97,6 +112,7 @@ public class GameManager : MonoBehaviour
             }
 
             currentPowerUp = "";
+            Debug.Log("Powerup is no longer active");
         }
     }
 

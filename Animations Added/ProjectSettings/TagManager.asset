@@ -7,6 +7,9 @@ TagManager:
   - Platform
   - Moving Platform
   - Power-up
+  - P2
+  - Obstacle
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

@@ -10,7 +10,10 @@ public class DeadlyGearController : MovingObject
     public float speedMultiplier;
 
     // true if associated with player 1, false if associated with player 2
-    public bool player1Area;
+    private bool player1;
+
+    // Put Player 1 Area's name here, regardless of what area the object is in
+    public string player1Area;
 
     // How fast the visual component spins, make it negative to change direction (in degrees/second)
     public float rotationSpeed;
@@ -22,6 +25,8 @@ public class DeadlyGearController : MovingObject
     void Start()
     {
         visual = transform.GetChild(0);
+
+        player1 = transform.IsChildOf(GameObject.Find(player1Area).transform);
 
         GameManager.instance.AddMovingObject(this);
     }
@@ -39,6 +44,11 @@ public class DeadlyGearController : MovingObject
 
     public override bool IsPlayer1Area()
     {
-        return player1Area;
+        return player1;
+    }
+
+    public override void Reset()
+    {
+
     }
 }

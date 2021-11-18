@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 1
-  player1Area: 1
+  player1Area: Player 1 Area
   timeBetween: 1
   startingSection: 0
 --- !u!1 &4532910767288303182

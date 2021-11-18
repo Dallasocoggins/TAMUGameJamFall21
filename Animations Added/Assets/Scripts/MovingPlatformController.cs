@@ -11,7 +11,10 @@ public class MovingPlatformController : MovingObject
 	public float speedMultiplier;
 
 	// true if associated with player 1, false if associated with player 2
-	public bool player1Area;
+	private bool player1;
+
+	// Put Player 1 Area's name here, regardless of what area the object is in
+	public string player1Area;
 
 	// How much time it spends between movements
 	public float timeBetween;
@@ -20,7 +23,7 @@ public class MovingPlatformController : MovingObject
 	public int startingSection;
 
 	// How long we have spent since the last point
-	private float currentTime;
+	private float cycleTime;
 
 	// Keeps track of which set of points it is between
 	// Acts as an index for points, where 0 represents the first section
@@ -43,6 +46,8 @@ public class MovingPlatformController : MovingObject
 		points = new Vector3[transform.childCount - 1];
 		platform = transform.GetChild(0);
 		section = startingSection;
+		player1 = transform.IsChildOf(GameObject.Find(player1Area).transform);
+		cycleTime = section * timeBetween;
 
 		for (int i = 1; i < transform.childCount; i++)
 		{
@@ -56,7 +61,8 @@ public class MovingPlatformController : MovingObject
 	// Update is called once per frame
 	void Update()
 	{
-		currentTime += Time.deltaTime * speedMultiplier;
+		cycleTime += Time.deltaTime * speedMultiplier;
+		float currentTime = cycleTime - section * timeBetween;
 		if (currentTime < timeBetween)
 		{
 			// (currentTime / timeBetween) is 0 when at the first point and 1 when at the second point
@@ -68,15 +74,17 @@ public class MovingPlatformController : MovingObject
 			if (section >= points.Length - 1)
 			{
 				section = 0;
+				cycleTime = 0;
 			}
 			platform.position = points[section];
-			currentTime = 0;
 		}
 	}
 
 	// Since we are manually moving the position, and the player needs to know how fast the platform is moving, this is here
 	public Vector3 Velocity()
 	{
+		float currentTime = cycleTime - section * timeBetween;
+
 		// Basically copy/paste from above, execpt replaced the first currentTime with currentTime + Time.deltaTime
 		return ((points[section] * (1 - (currentTime + Time.deltaTime) / timeBetween) + points[section + 1] * ((currentTime + Time.deltaTime) / timeBetween))
 			 - (points[section] * (1 - currentTime / timeBetween) + points[section + 1] * (currentTime / timeBetween))) / Time.deltaTime * speedMultiplier;
@@ -89,6 +97,12 @@ public class MovingPlatformController : MovingObject
 
 	public override bool IsPlayer1Area()
 	{
-		return player1Area;
+		return player1;
+	}
+
+	public override void Reset()
+	{
+		section = startingSection;
+		cycleTime = section * timeBetween;
 	}
 }
