@@ -10,7 +10,6 @@ public class FinishLine : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        nextSceneLoad = SceneManager.GetActiveScene().buildIndex + 1;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -18,20 +17,18 @@ public class FinishLine : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             PlayerController controller = collision.GetComponent<PlayerController>();
-            if (SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCount - 1)
-            {
+
                 controller.addLap();
                 Debug.Log("You have completed " + controller.getLaps() + " laps");
                 if (controller.getLaps() >= GameManager.instance.getLapsNeeded())
                 {
-                    Debug.Log("YOU WIN THE GAME");
-                    GameManager.instance.win(controller);
+                    Debug.Log("laps Completed");
+                    StartCoroutine(GameManager.instance.win(controller));
                 } else
                 {
                     controller.setCheckpoint(0);
                     controller.Respawn();
                 }
-            }
           /**  else
             {
                 //Move to next level

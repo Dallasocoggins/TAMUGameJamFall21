@@ -47,13 +47,15 @@ public class GameManager : MonoBehaviour
     // Same thing but for player 2
     public List<MovingObject> player2MovingObjects;
 
+
+    private bool canWin;
+
     // Start is called before the first frame update
     void Awake()
     {
         if (GameManager.instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(instance);
         }
         else
         {
@@ -68,6 +70,8 @@ public class GameManager : MonoBehaviour
         musicTime = 0;
 
         currentPowerUp = "";
+
+        canWin = true;
     }
 
     // Update is called once per frame
@@ -116,6 +120,11 @@ public class GameManager : MonoBehaviour
             currentPowerUp = "";
             Debug.Log("Powerup is no longer active");
         }
+
+        /**if(player1 == null || player2 == null)
+        {
+            FindPlayer();
+        } **/
     }
 
     // When a moving object registers itself with the game manager
@@ -253,15 +262,54 @@ public class GameManager : MonoBehaviour
         return laps;
     }
 
-    public void win(PlayerController player)
+    public IEnumerator win(PlayerController player)
     {
-        GameObject text = GameObject.FindGameObjectWithTag("Text");
-        if (player.getIsPlayerOne())
+        if (canWin)
         {
-            text.GetComponent<ShowText>().setText("Player one wins!");
-        } else
-        {
-            text.GetComponent<ShowText>().setText("Player two wins!");
+            canWin = false;
+            GameObject text = GameObject.FindGameObjectWithTag("Text");
+            if (player.getIsPlayerOne())
+            {
+                text.GetComponent<ShowText>().setText("Player one wins!");
+            }
+            else
+            {
+                text.GetComponent<ShowText>().setText("Player two wins!");
+            }
+
+            yield return new WaitForSeconds(5);
+
+            SceneManager.LoadScene(0);
         }
     }
+
+    // This function doesn't work for some reason for player 1 but I've been staring at it for like an hour at this point
+    // and I have no idea what in the world is wrong so I decided to do something very different
+    /**
+    void FindPlayer()
+    {
+        if (nextTimeToSearch <= Time.time)
+        {
+            GameObject[] searchResults = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject searchResult in searchResults) {
+                if (searchResult != null)
+                {
+                    if (searchResult.GetComponent<PlayerController>().getIsPlayerOne())
+                    {
+                        Debug.Log("Found Player 1 again");
+                        player1 = searchResult;
+                    }
+                    else
+                    {
+                        Debug.Log("Found Player 2 again");
+                        player2 = searchResult;
+                    }
+                }
+            }
+
+            nextTimeToSearch = Time.time + 0.5f;
+
+        }
+    }
+    **/
 }

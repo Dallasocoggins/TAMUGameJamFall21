@@ -129,6 +129,7 @@ public class PlayerController : MonoBehaviour
         checkpoint = 0;
         checkpoints.transform.GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("open", true);
 
+
         controller = gameObject.GetComponent<CharacterController>();
     }
 

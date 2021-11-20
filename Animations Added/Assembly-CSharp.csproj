@@ -57,12 +57,13 @@
     <Compile Include="Assets\Scripts\MovingObject.cs" />
     <Compile Include="Assets\Scripts\PowerUp.cs" />
     <Compile Include="Assets\Scripts\DeadlyGearController.cs" />
+    <Compile Include="Assets\Scripts\ShowText.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Camera2DFollow.cs" />
-    <Compile Include="Assets\Scripts\MovingPlatformController.cs" />
-    <Compile Include="Assets\Scripts\SceneManaging.cs" />
     <Compile Include="Assets\Scripts\FinishLine.cs" />
-    <Compile Include="Assets\Scripts\ShowText.cs" />
+    <Compile Include="Assets\Scripts\SceneManaging.cs" />
+    <Compile Include="Assets\Scripts\MovingPlatformController.cs" />
+    <Compile Include="Assets\Scripts\TimeBody.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

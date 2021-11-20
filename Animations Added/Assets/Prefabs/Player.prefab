@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1236902576600355860}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9.32}
+  m_LocalPosition: {x: 0, y: 2, z: -9.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4118819177333683248}
@@ -58,7 +58,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 37
+  field of view: 49.9
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -308,6 +308,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ce155295-7d81-42f3-8471-95a9d72cf894
     m_ActionName: Player/Dash[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b2300b22-2047-474f-b85a-714843654349
+    m_ActionName: Player/Movement P1[/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3ed5681a-879d-4c35-8f81-8d63a4f2c75c
+    m_ActionName: Player/Movement P2[/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5617a16b-b760-4b20-9cfc-b25f4c6bc745
+    m_ActionName: Player/Jump P1[/Keyboard/w]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ab58500e-400a-4065-82b3-5279da7bd89d
+    m_ActionName: Player/Jump P2[/Keyboard/upArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: aeab237e-7b5d-4fa3-ab8d-f1ae9ed4a1b0
+    m_ActionName: Player/Powerup P1[/Keyboard/leftCtrl]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bf68c91f-b2fd-424b-a64f-b79648e7ba25
+    m_ActionName: Player/Powerup P2[/Keyboard/rightCtrl]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 84034478-8ab2-4eee-acde-fe3f5f9f1369
+    m_ActionName: Player/Dash P1[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 06904904-7615-4c69-9802-35e4b2370cad
+    m_ActionName: Player/Dash P2[/Keyboard/rightShift]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard1
   m_DefaultActionMap: Player
