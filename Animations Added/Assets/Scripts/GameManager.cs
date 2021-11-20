@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     public GameObject audioManager;
     private float musicTime;
 
+    public int laps;
+
     // The list of moving objects associated with player 1
     // Note: if we ever change scenes, this and the next list need to be reset
     public List<MovingObject> player1MovingObjects;
@@ -245,4 +247,21 @@ public class GameManager : MonoBehaviour
         player2.GetComponent<PlayerController>().OnDash(context);
     }
     #endregion
+
+    public int getLapsNeeded()
+    {
+        return laps;
+    }
+
+    public void win(PlayerController player)
+    {
+        GameObject text = GameObject.FindGameObjectWithTag("Text");
+        if (player.getIsPlayerOne())
+        {
+            text.GetComponent<ShowText>().setText("Player one wins!");
+        } else
+        {
+            text.GetComponent<ShowText>().setText("Player two wins!");
+        }
+    }
 }

@@ -70,7 +70,10 @@ namespace UnityStandardAssets._2D
                 GameObject searchResult = GameObject.FindGameObjectWithTag("Player");
                 if (searchResult != null)
                 {
-                    target = searchResult.transform;
+                    if (searchResult.GetComponent<PlayerController>().getIsPlayerOne() == isPlayerOne)
+                    {
+                        target = searchResult.transform;
+                    }
                 }
 
                 nextTimeToSearch = Time.time + 0.5f;

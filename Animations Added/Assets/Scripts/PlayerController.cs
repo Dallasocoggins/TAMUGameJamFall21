@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private bool isPlayerOne;
 
+    private int numOfLaps;
 
     // Start is called before the first frame update
     void Start()
@@ -130,6 +131,7 @@ public class PlayerController : MonoBehaviour
 
         controller = gameObject.GetComponent<CharacterController>();
     }
+
     
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -625,6 +627,21 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+    }
+
+    public void addLap()
+    {
+        numOfLaps++;
+    }
+
+    public int getLaps()
+    {
+        return numOfLaps;
+    }
+
+    public void setCheckpoint(int check)
+    {
+        checkpoint = check;
     }
 
     public bool getIsPlayerOne()

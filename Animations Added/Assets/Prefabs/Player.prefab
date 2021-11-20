@@ -99,9 +99,9 @@ MonoBehaviour:
   target: {fileID: 4118819177333683248}
   player: {fileID: 4118819177333683252}
   damping: 0.2
-  lookAheadFactor: 5
-  lookAheadReturnSpeed: 0.3
-  lookAheadMoveThreshold: 1
+  lookAheadFactor: 4
+  lookAheadReturnSpeed: 5
+  lookAheadMoveThreshold: 5
   yPosRestriction: -1
 --- !u!1 &4118819177333683252
 GameObject:
@@ -201,17 +201,23 @@ MonoBehaviour:
   speed: 6
   jumpHeight: 9
   extraJumps: 1
+  coyoteTimeLength: 0
   horizontalJumpSpeed: 2
   wallClimb: 1
   wallJumpCooldown: 0.1
+  wallSlideSpeed: 0
   dashTimeLength: 0.3
   dashSpeed: 10
   numDashes: 1
   verticalMargin: 0.1
-  wallSlideSpeed: 0
+  wallClimbMargin: 0
+  groundMargin: 0
+  animator: {fileID: 0}
+  checkpoints: {fileID: 0}
   platformLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  powerUp: 
   isPlayerOne: 0
 --- !u!114 &605375026593134654
 MonoBehaviour:
