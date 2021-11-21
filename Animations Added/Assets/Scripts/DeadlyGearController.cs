@@ -24,6 +24,8 @@ public class DeadlyGearController : MovingObject
     // Start is called before the first frame update
     void Start()
     {
+        //positions = new List<Vector2>();
+
         visual = transform.GetChild(0);
 
         player1 = transform.IsChildOf(GameObject.Find(player1Area).transform);

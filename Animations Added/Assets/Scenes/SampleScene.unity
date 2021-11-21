@@ -1151,6 +1151,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 459064531}
     - target: {fileID: 4399554540072707562, guid: e8c4d14905c1d574cb804cbdd837c0c1, type: 3}
+      propertyPath: stopSec
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4399554540072707562, guid: e8c4d14905c1d574cb804cbdd837c0c1, type: 3}
+      propertyPath: rewindFor
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4399554540072707562, guid: e8c4d14905c1d574cb804cbdd837c0c1, type: 3}
+      propertyPath: timeTaken
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4399554540072707562, guid: e8c4d14905c1d574cb804cbdd837c0c1, type: 3}
+      propertyPath: numOfSteps
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4399554540072707562, guid: e8c4d14905c1d574cb804cbdd837c0c1, type: 3}
       propertyPath: audioManager
       value: 
       objectReference: {fileID: 1599126610}

@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
     public string powerUp;
 
     // Your options
-    private string[] powerUpOptions = { "slow", "speed" }; //{ "slow", "skip", "speed", "pause", "rewind" };
+    private string[] powerUpOptions = { "slow", "speed", "rewind", "stop" }; //{ "slow", "skip", "speed", "pause", "rewind" };
 
     private CharacterController controller;
 
@@ -117,6 +117,8 @@ public class PlayerController : MonoBehaviour
     private bool isPlayerOne;
 
     private int numOfLaps;
+
+    private bool movementOn = true;
 
     // Start is called before the first frame update
     void Start()
@@ -168,6 +170,7 @@ public class PlayerController : MonoBehaviour
     // Input collection and animation
     void Update()
     {
+        if (checkMovementOn()) { 
         #region input
 
         // if we are doing a special ability, we don't want to reset movement just yet
@@ -235,6 +238,7 @@ public class PlayerController : MonoBehaviour
         if (timeAfterWallJump <= 0 && (OnMovingPlatform() || (MovingPlatformWall() && wallClimb)) && timeAfterDash <= 0)
         {
             movement += ((MovingPlatformController)(MovingPlatform().GetComponentInParent(typeof(MovingPlatformController)))).Velocity().x;
+        }
         }
     }
 
@@ -401,6 +405,7 @@ public class PlayerController : MonoBehaviour
         timeAfterWallJump = 0;
         dashesLeft = 0;
         timeAfterDash = 0;
+        GetComponent<TimeBody>().clearPos();
     }
     #endregion
 
@@ -650,8 +655,16 @@ public class PlayerController : MonoBehaviour
         return isPlayerOne;
     }
 
-    public void stopTime()
+    public IEnumerator stopTime(float sec)
     {
-
+        movementOn = false;
+        yield return new WaitForSeconds(sec);
+        movementOn = true;
     }
+
+    public bool checkMovementOn()
+    {
+        return (!GetComponent<TimeBody>().isRewinding) && movementOn;
+    }
+
 }

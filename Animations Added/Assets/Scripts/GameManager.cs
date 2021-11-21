@@ -40,6 +40,17 @@ public class GameManager : MonoBehaviour
 
     public int laps;
 
+    // Variables forrewind
+    public float rewindFor;
+    public float stopSec;
+
+    /***
+    //[SerializeField]
+    private float timeTaken;
+    //Number of the positions in between the rewind start and rewind end
+    [SerializeField]
+    private int numOfSteps; ***/
+
     // The list of moving objects associated with player 1
     // Note: if we ever change scenes, this and the next list need to be reset
     public List<MovingObject> player1MovingObjects;
@@ -162,6 +173,18 @@ public class GameManager : MonoBehaviour
                 {
                     element.SetSpeedMultiplier(timeSlowFactor);
                 }
+            } else if (powerUp == "rewind")
+            {
+                if (onPlayerOne)
+                    StartCoroutine(rewindTime(player2));
+                else
+                    StartCoroutine(rewindTime(player1));
+            } else if (powerUp == "stop")
+            {
+                if (onPlayerOne)
+                    stopTime(player2);
+                else
+                    stopTime(player1);
             }
             else
             {
@@ -210,8 +233,32 @@ public class GameManager : MonoBehaviour
 
     public void stopTime(GameObject p)
     {
-        p.GetComponent<PlayerController>().stopTime();
+        StartCoroutine(p.GetComponent<PlayerController>().stopTime(stopSec));
     }
+
+    //Less jank version of rewind
+    IEnumerator rewindTime(MovingObject p)
+    {
+        p.GetComponent<TimeBody>().startRewind();
+        yield return new WaitForSeconds(rewindFor);
+        p.GetComponent<TimeBody>().stopRewind();
+    }
+
+    //Less jank version of rewind
+    IEnumerator rewindTime(GameObject p)
+    {
+        p.GetComponent<TimeBody>().startRewind();
+        yield return new WaitForSeconds(rewindFor);
+        p.GetComponent<TimeBody>().stopRewind();
+    }
+
+    //Jank version of rewind
+    /**
+    public void rewindTime(GameObject p)
+    {
+        p.GetComponent<TimeBody>().startRewind(rewindFor, timeTaken, numOfSteps);
+    }
+    **/
 
 
     #region player input
@@ -249,6 +296,15 @@ public class GameManager : MonoBehaviour
     public void OnPowerP2(InputAction.CallbackContext context)
     {
         player2.GetComponent<PlayerController>().OnPower(context);
+        //Testing purposes
+        /**List<MovingObject> movingObjects = player2MovingObjects;
+
+        foreach (MovingObject element in movingObjects)
+        {
+            StartCoroutine(rewindTime(element));
+        } **/
+        //StartCoroutine(rewindTime(player2));
+        //rewindTime(player2);
     }
 
     public void OnDashP2(InputAction.CallbackContext context)
