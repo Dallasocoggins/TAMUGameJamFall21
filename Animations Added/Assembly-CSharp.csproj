@@ -37,6 +37,8 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\Active_Powerup.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\ActivePowerupTimer.cs" />
      <Compile Include="Assets\Scripts\TimeBody.cs" />
      <Compile Include="Assets\Scripts\MovingObject.cs" />
      <Compile Include="Assets\Scripts\PowerUp.cs" />
@@ -47,8 +49,8 @@
      <Compile Include="Assets\Scripts\FinishLine.cs" />
      <Compile Include="Assets\Scripts\SceneManaging.cs" />
      <Compile Include="Assets\Scripts\MovingPlatformController.cs" />
-     <Compile Include="Assets\Scripts\UI Scripts\ActivePowerupTimer.cs" />
-     <Compile Include="Assets\Scripts\UI Scripts\Active_Powerup.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\Player1_HeldPowerup.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\Player2_HeldPowerup.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity 2020.3.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

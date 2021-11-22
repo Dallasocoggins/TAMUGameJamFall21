@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     // Stores what power up is in effect
     private string currentPowerUp;
 
-    // True if the power up is being applied dto player 1
+    // True if the power up is being applied to player 1
     private bool powerUpOnPlayer1;
 
     // How long the power up will last for

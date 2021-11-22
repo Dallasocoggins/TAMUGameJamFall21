@@ -19,12 +19,6 @@ public class Active_Powerup : MonoBehaviour
         image.enabled = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // no active powerup -- so hide the image
     public void hideActivePowerup()
     {

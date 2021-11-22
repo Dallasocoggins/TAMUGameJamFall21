@@ -527,8 +527,8 @@ RectTransform:
   - {fileID: 330167291}
   - {fileID: 197290690}
   - {fileID: 512269597}
-  - {fileID: 1283620693}
   - {fileID: 1667291633}
+  - {fileID: 1283620693}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -709,7 +709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -162.09998, y: -6.8739}
+  m_AnchoredPosition: {x: -162.13, y: -0.000059605}
   m_SizeDelta: {x: 166.47998, y: 164.14}
   m_Pivot: {x: 0.5000002, y: 0.49999982}
 --- !u!114 &512269598
@@ -1254,9 +1254,10 @@ GameObject:
   - component: {fileID: 1283620693}
   - component: {fileID: 1283620695}
   - component: {fileID: 1283620694}
+  - component: {fileID: 1283620696}
   m_Layer: 5
   m_Name: Player1_HeldPowerup
-  m_TagString: Untagged
+  m_TagString: Held Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1268,16 +1269,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1283620692}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 332052477}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -168.19995, y: 244}
+  m_AnchoredPosition: {x: -168.2002, y: 244}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1283620694
@@ -1318,6 +1319,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1283620692}
   m_CullTransparentMesh: 1
+--- !u!114 &1283620696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283620692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d872a1de54be47a4a8b8d146b7293682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  powerUpAssets:
+  - {fileID: 21300000, guid: b972c57487218194dabb2aba321d4a1d, type: 3}
+  - {fileID: 21300000, guid: e489a561a288ac9418fc84f04ce64bff, type: 3}
+  - {fileID: 21300000, guid: 3e8e6d6229683d745a6eebb233d9e2fb, type: 3}
+  - {fileID: 21300000, guid: 93a965f1b30772244981e9f42112e90d, type: 3}
 --- !u!1 &1393239904 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1606390334915904508, guid: d0a6d419e4b550b4db5a9d5373a7e461, type: 3}
@@ -1472,9 +1491,10 @@ GameObject:
   - component: {fileID: 1667291633}
   - component: {fileID: 1667291635}
   - component: {fileID: 1667291634}
+  - component: {fileID: 1667291636}
   m_Layer: 5
   m_Name: Player2_HeldPowerup
-  m_TagString: Untagged
+  m_TagString: Held Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1486,16 +1506,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1667291632}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 332052477}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -148, y: -236}
+  m_AnchoredPosition: {x: -154.44, y: -244}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1667291634
@@ -1536,6 +1556,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1667291632}
   m_CullTransparentMesh: 1
+--- !u!114 &1667291636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1667291632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71201440b89b4584eb171a724533efc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  powerUpAssets:
+  - {fileID: 21300000, guid: b972c57487218194dabb2aba321d4a1d, type: 3}
+  - {fileID: 21300000, guid: e489a561a288ac9418fc84f04ce64bff, type: 3}
+  - {fileID: 21300000, guid: 3e8e6d6229683d745a6eebb233d9e2fb, type: 3}
+  - {fileID: 21300000, guid: 93a965f1b30772244981e9f42112e90d, type: 3}
 --- !u!1 &1700368965 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4399554540072707561, guid: e8c4d14905c1d574cb804cbdd837c0c1, type: 3}

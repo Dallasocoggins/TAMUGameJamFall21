@@ -23,7 +23,7 @@ public class ActivePowerupTimer : MonoBehaviour
         
     }
 
-    // play the countdown timer for powerups that last for a few seconds (slow and speed)
+    // play the countdown timer for powerups that last for a few seconds (slow, speed, stop)
     public void doTimerAnimation(bool powerupActivated)
     {
         animator.SetBool("StartedTimer", powerupActivated);
