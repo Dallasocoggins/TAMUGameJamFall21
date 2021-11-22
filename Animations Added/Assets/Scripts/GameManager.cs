@@ -114,6 +114,7 @@ public class GameManager : MonoBehaviour
         if (powerUpTime > 0)
         {
             powerUpTime -= Time.deltaTime;
+
         }
 
         else if (currentPowerUp != "")
