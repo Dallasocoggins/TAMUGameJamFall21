@@ -121,6 +121,7 @@ public class GameManager : MonoBehaviour
         {
             if (currentPowerUp == "slow" || currentPowerUp == "speed")
             {
+
                 List<MovingObject> movingObjects = powerUpOnPlayer1 ? player1MovingObjects : player2MovingObjects;
 
                 foreach (MovingObject element in movingObjects)
@@ -130,6 +131,14 @@ public class GameManager : MonoBehaviour
             }
 
             currentPowerUp = "";
+
+            GameObject powerupTimer = GameObject.FindGameObjectWithTag("Powerup Timer");
+            GameObject activePowerup = GameObject.FindGameObjectWithTag("Active Powerup");
+
+            powerupTimer.GetComponent<ActivePowerupTimer>().doTimerAnimation(false);
+            powerupTimer.GetComponent<ActivePowerupTimer>().doActivationAnimation(false);
+            activePowerup.GetComponent<Active_Powerup>().hideActivePowerup();
+
             Debug.Log("Powerup is no longer active");
         }
 
@@ -155,10 +164,17 @@ public class GameManager : MonoBehaviour
     // If we sucessfully apply the powerup, returns true
     public bool UsePowerUp(string powerUp, bool onPlayerOne)
     {
+        GameObject powerupTimer = GameObject.FindGameObjectWithTag("Powerup Timer");
+        GameObject activePowerup = GameObject.FindGameObjectWithTag("Active Powerup");
+
         if (currentPowerUp == "")
         {
+            activePowerup.GetComponent<Active_Powerup>().showActivePowerup(powerUp);
+
             if (powerUp == "slow")
             {
+                powerupTimer.GetComponent<ActivePowerupTimer>().doTimerAnimation(true);
+
                 List<MovingObject> movingObjects = onPlayerOne ? player1MovingObjects : player2MovingObjects;
 
                 foreach (MovingObject element in movingObjects)
@@ -168,6 +184,8 @@ public class GameManager : MonoBehaviour
             }
             else if (powerUp == "speed")
             {
+                powerupTimer.GetComponent<ActivePowerupTimer>().doTimerAnimation(true);
+
                 List<MovingObject> movingObjects = onPlayerOne ? player1MovingObjects : player2MovingObjects;
 
                 foreach (MovingObject element in movingObjects)
@@ -182,6 +200,8 @@ public class GameManager : MonoBehaviour
                     StartCoroutine(rewindTime(player1));
             } else if (powerUp == "stop")
             {
+                powerupTimer.GetComponent<ActivePowerupTimer>().doTimerAnimation(true);
+
                 if (onPlayerOne)
                     stopTime(player2);
                 else
@@ -196,8 +216,15 @@ public class GameManager : MonoBehaviour
             powerUpOnPlayer1 = onPlayerOne;
             powerUpTime = powerUpLength;
 
+            powerupTimer.GetComponent<ActivePowerupTimer>().doActivationAnimation(true);
+            
+
             return true;
         }
+
+        powerupTimer.GetComponent<ActivePowerupTimer>().doTimerAnimation(false);
+        powerupTimer.GetComponent<ActivePowerupTimer>().doActivationAnimation(false);
+        activePowerup.GetComponent<Active_Powerup>().hideActivePowerup();
 
         return false;
     }

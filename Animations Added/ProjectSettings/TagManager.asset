@@ -11,6 +11,8 @@ TagManager:
   - Obstacle
   - Checkpoint
   - Text
+  - Powerup Timer
+  - Active Powerup
   layers:
   - Default
   - TransparentFX

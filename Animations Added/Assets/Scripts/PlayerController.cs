@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
 
     // The script to activate the timer
-    public ActivePowerupTimer powerUpTimer;
+    //public ActivePowerupTimer powerUpTimer;
     //public Canvas
 
     // The game object storing all the checkpoints
@@ -622,9 +622,6 @@ public class PlayerController : MonoBehaviour
             if (GameManager.instance.UsePowerUp(powerUp, onPlayerOne))
             {
                 Debug.Log("Activating powerup " + powerUp);
-
-                //powerUpTimer.GetComponent<Animator>().SetBool("ActivatedPowerup", true);
-                //powerUpTimer.doTimerAnimation(true);
 
                 powerUp = "";
                 if (isPlayerOne)
