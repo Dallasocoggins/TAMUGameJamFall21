@@ -624,7 +624,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Activating powerup " + powerUp);
 
                 //powerUpTimer.GetComponent<Animator>().SetBool("ActivatedPowerup", true);
-                powerUpTimer.doTimerAnimation(true);
+                //powerUpTimer.doTimerAnimation(true);
 
                 powerUp = "";
                 if (isPlayerOne)
