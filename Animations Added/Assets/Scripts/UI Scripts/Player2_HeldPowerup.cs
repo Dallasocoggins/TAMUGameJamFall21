@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Active_Powerup : MonoBehaviour
+public class Player2_HeldPowerup : MonoBehaviour
 {
-
-    public Image image;
+        public Image image;
 
     // list of the powerup images
     // [slow-down.png, speed-up.png, stop.png, rewind.png]
@@ -19,7 +18,7 @@ public class Active_Powerup : MonoBehaviour
         image.enabled = false;
     }
 
-    // no active powerup -- so hide the image
+    // no held powerup -- so hide the image
     public void hideActivePowerup()
     {
         image = GetComponent<Image>();
@@ -35,28 +34,27 @@ public class Active_Powerup : MonoBehaviour
         switch (powerUp) {
             case "slow":
                 image.sprite = powerUpAssets[0];
-                Debug.Log("Slow-down displayed");
+                Debug.Log("Slow-down displayed - p2 held powerup");
                 break;
             case "speed":
                 image.sprite = powerUpAssets[1];
-                Debug.Log("speed displayed");
+                Debug.Log("speed displayed - p2 held powerup");
                 break;
             case "pause":
                 image.sprite = powerUpAssets[2];
-                Debug.Log("stop displayed");
+                Debug.Log("stop displayed - p2 held powerup");
                 break;
             case "rewind":
                 image.sprite = powerUpAssets[3];
-                Debug.Log("rewind displayed");
+                Debug.Log("rewind displayed - p2 held powerup");
                 break;
             case "skip":
-                Debug.Log("skip not displayed bc we don't have an image lol");
+                Debug.Log("skip not displayed bc we don't have an image lol - p2 held powerup");
                 break;
             default:
-                Debug.Log("invalid display");
+                Debug.Log("invalid display - p2 held powerup");
                break;
 
          }
     }
-
 }
