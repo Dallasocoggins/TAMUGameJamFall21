@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    #region variables
     // Max horizontal speed
     public float speed;
 
@@ -124,6 +125,7 @@ public class PlayerController : MonoBehaviour
     private int numOfLaps;
 
     private bool movementOn = true;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -140,7 +142,8 @@ public class PlayerController : MonoBehaviour
         controller = gameObject.GetComponent<CharacterController>();
     }
 
-    
+
+    #region input
     public void OnMove(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<float>();
@@ -168,13 +171,20 @@ public class PlayerController : MonoBehaviour
             dashed = context.action.triggered;
         }
     }
-    
-    
-    
+    #endregion
+
+
     // Update is called once per frame
     // Input collection and animation
     void Update()
     {
+        // If there is floor above and below you
+        // Aka you are getting crushed
+        if (WallAbove() && WallBelow() && WallAbove() != WallBelow())
+        {
+            Die();
+        }
+
         if (checkMovementOn()) { 
         #region input
 
@@ -427,6 +437,38 @@ public class PlayerController : MonoBehaviour
         return grounded;
     }
 
+    private GameObject WallAbove()
+    {
+        float margin = groundMargin;
+        Vector2 point = collider.bounds.center;
+        Vector3 box = collider.bounds.size;
+        point.y = point.y + box.y * 0.4f;
+        box.y = box.y * 0.1f;
+        box.x = box.x * 0.5f;  // I did this beause i was having an issue with the launching platform where you wouild sometimes get wedged between the wall and the platform momentarily, so this makes it so you don't die then
+                               // Also this makes sense becasue if you are just on the egde you should be pushed out rather than killed
+        RaycastHit2D raycastHit2D = Physics2D.BoxCast(point, box, 0f, Vector2.up, margin, platformLayerMask);
+        bool wall = raycastHit2D.collider ? raycastHit2D.collider.CompareTag("Platform") || raycastHit2D.collider.CompareTag("Moving Platform") : false;
+
+        if (raycastHit2D.collider)
+            return raycastHit2D.collider.CompareTag("Platform") || raycastHit2D.collider.CompareTag("Moving Platform") ? raycastHit2D.collider.gameObject : null;
+        return null;
+    }
+
+    private GameObject WallBelow()
+    {
+        float margin = groundMargin;
+        Vector2 point = collider.bounds.center;
+        Vector3 box = collider.bounds.size;
+        point.y = point.y - box.y * 0.4f;
+        box.y = box.y * 0.1f;
+        box.x = box.x * 0.5f;
+        RaycastHit2D raycastHit2D = Physics2D.BoxCast(point, box, 0f, Vector2.down, margin, platformLayerMask);
+
+        if (raycastHit2D.collider)
+            return raycastHit2D.collider.CompareTag("Platform") || raycastHit2D.collider.CompareTag("Moving Platform") ? raycastHit2D.collider.gameObject : null;
+        return null;
+    }
+
     // true if there is a wall next to the player
     private bool NextToWall()
     {
@@ -654,6 +696,17 @@ public class PlayerController : MonoBehaviour
     public void setCheckpoint(int check)
     {
         checkpoint = check;
+    }
+
+    public void ResetCheckpoints()
+    {
+        foreach (Transform checkpoint in checkpoints.transform)
+        {
+            if (checkpoint.GetSiblingIndex() != 0)
+            {
+                checkpoint.GetChild(0).GetComponent<Animator>().SetBool("open", false);
+            }
+        }
     }
 
     public bool getIsPlayerOne()

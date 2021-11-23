@@ -28,6 +28,7 @@ public class FinishLine : MonoBehaviour
                 {
                     controller.setCheckpoint(0);
                     controller.Respawn();
+                    controller.ResetCheckpoints();
                 }
           /**  else
             {

@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
     {
         // The music used to wait a second before coming in, because otherwise it can be a little off
         // This should be fixed with reset now
-        musicTime = 0;
+        musicTime = 120;
 
         currentPowerUp = "";
 
