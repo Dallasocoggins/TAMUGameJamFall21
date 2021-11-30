@@ -23,7 +23,7 @@ TagManager:
   - UI
   - Platform
   - Player
-  - 
+  - Background
   - 
   - 
   - 
@@ -50,4 +50,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3764300145
+    locked: 0
+  - name: Platforms
+    uniqueID: 1655622335
+    locked: 0
+  - name: Checkpoints
+    uniqueID: 1026078131
+    locked: 0
+  - name: Powerups
+    uniqueID: 3049574267
+    locked: 0
+  - name: Players
+    uniqueID: 1523929501
     locked: 0
