@@ -222,10 +222,6 @@ public class GameManager : MonoBehaviour
             return true;
         }
 
-        powerupTimer.GetComponent<ActivePowerupTimer>().doTimerAnimation(false);
-        powerupTimer.GetComponent<ActivePowerupTimer>().doActivationAnimation(false);
-        activePowerup.GetComponent<Active_Powerup>().hideActivePowerup();
-
         return false;
     }
 

@@ -1,22 +1,24 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - ActivePowerupTimer
+    - Active_Powerup
     - DeadlyGearController
     - FinishLine
     - GameManager
     - MovingPlatformController
+    - Player1_HeldPowerup
+    - Player2_HeldPowerup
     - PlayerController
     - PowerUp
     - SceneManaging
     - ShowText
+    - TimeBody
     - UnityStandardAssets._2D.Camera2DFollow
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.IK.Editor.dll:
     - UnityEditor.U2D.IK.IKEditorManager
-    - UnityEditor.U2D.IK.IKGizmos
-    Unity.2D.IK.Runtime.dll:
-    - UnityEditor.U2D.IK.IKEditorManagerHelper
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
@@ -39,10 +41,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -54,70 +54,10 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.Shadow
     - UnityEngine.UI.Text
   sceneClasses:
-    Assets/Scenes/Main Menu.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 89
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 108
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 1528}
-    - Class: 114
-      Script: {instanceID: 2306}
-    - Class: 114
-      Script: {instanceID: 2774}
-    - Class: 114
-      Script: {instanceID: 2962}
-    - Class: 114
-      Script: {instanceID: 3202}
-    - Class: 114
-      Script: {instanceID: 3610}
-    - Class: 114
-      Script: {instanceID: 4002}
-    - Class: 114
-      Script: {instanceID: 4550}
-    - Class: 114
-      Script: {instanceID: 4976}
-    - Class: 114
-      Script: {instanceID: 5820}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 128
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 196
-      Script: {instanceID: 0}
-    - Class: 213
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
-      Script: {instanceID: 0}
-    - Class: 258
-      Script: {instanceID: 0}
-    - Class: 850595691
-      Script: {instanceID: 0}
-    Assets/Scenes/SampleScene.unity:
+    Assets/Scenes/Level.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -151,45 +91,57 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1520}
+      Script: {instanceID: 1532}
     - Class: 114
-      Script: {instanceID: 1528}
+      Script: {instanceID: 1540}
     - Class: 114
-      Script: {instanceID: 1554}
+      Script: {instanceID: 1566}
     - Class: 114
-      Script: {instanceID: 2306}
+      Script: {instanceID: 1650}
     - Class: 114
-      Script: {instanceID: 2774}
+      Script: {instanceID: 1818}
     - Class: 114
-      Script: {instanceID: 2962}
+      Script: {instanceID: 1886}
     - Class: 114
-      Script: {instanceID: 3132}
+      Script: {instanceID: 1992}
     - Class: 114
-      Script: {instanceID: 3202}
+      Script: {instanceID: 2362}
     - Class: 114
-      Script: {instanceID: 3280}
+      Script: {instanceID: 2648}
     - Class: 114
-      Script: {instanceID: 3610}
+      Script: {instanceID: 2842}
     - Class: 114
-      Script: {instanceID: 4002}
+      Script: {instanceID: 3042}
     - Class: 114
-      Script: {instanceID: 4016}
+      Script: {instanceID: 3222}
     - Class: 114
-      Script: {instanceID: 4176}
+      Script: {instanceID: 3296}
     - Class: 114
-      Script: {instanceID: 4550}
+      Script: {instanceID: 3374}
     - Class: 114
-      Script: {instanceID: 4638}
+      Script: {instanceID: 3714}
     - Class: 114
-      Script: {instanceID: 4976}
+      Script: {instanceID: 3742}
     - Class: 114
-      Script: {instanceID: 5228}
+      Script: {instanceID: 4124}
     - Class: 114
-      Script: {instanceID: 5820}
+      Script: {instanceID: 4138}
     - Class: 114
-      Script: {instanceID: 6070}
+      Script: {instanceID: 4302}
     - Class: 114
-      Script: {instanceID: 6260}
+      Script: {instanceID: 4696}
+    - Class: 114
+      Script: {instanceID: 4796}
+    - Class: 114
+      Script: {instanceID: 5144}
+    - Class: 114
+      Script: {instanceID: 5406}
+    - Class: 114
+      Script: {instanceID: 6028}
+    - Class: 114
+      Script: {instanceID: 6284}
+    - Class: 114
+      Script: {instanceID: 6478}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -213,6 +165,75 @@ ScriptsOnlyBuild:
     - Class: 243
       Script: {instanceID: 0}
     - Class: 245
+      Script: {instanceID: 0}
+    Assets/Scenes/Main Menu.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 74
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 89
+      Script: {instanceID: 0}
+    - Class: 91
+      Script: {instanceID: 0}
+    - Class: 95
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 108
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 1540}
+    - Class: 114
+      Script: {instanceID: 1818}
+    - Class: 114
+      Script: {instanceID: 2362}
+    - Class: 114
+      Script: {instanceID: 2842}
+    - Class: 114
+      Script: {instanceID: 3042}
+    - Class: 114
+      Script: {instanceID: 3296}
+    - Class: 114
+      Script: {instanceID: 3714}
+    - Class: 114
+      Script: {instanceID: 4124}
+    - Class: 114
+      Script: {instanceID: 4696}
+    - Class: 114
+      Script: {instanceID: 5144}
+    - Class: 114
+      Script: {instanceID: 6028}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
+    - Class: 258
+      Script: {instanceID: 0}
+    - Class: 850595691
       Script: {instanceID: 0}
   scriptHashData:
   - hash:
@@ -259,16 +280,16 @@ ScriptsOnlyBuild:
     className: SpriteSkin
   - hash:
       serializedVersion: 2
+      Hash: 7846bba3f782929b478b194295ce695e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Active_Powerup
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: SignalAsset
-  - hash:
-      serializedVersion: 2
-      Hash: d1b036fbe5adcfe372c77a9d812c7e37
-    assemblyName: Unity.2D.IK.Runtime.dll
-    namespaceName: UnityEditor.U2D.IK
-    className: IKEditorManagerHelper
   - hash:
       serializedVersion: 2
       Hash: bcaee4c2a83047257b5f47d6ed264b75
@@ -319,10 +340,22 @@ ScriptsOnlyBuild:
     className: Shadow
   - hash:
       serializedVersion: 2
+      Hash: f7b75d71c763dcdee325cc73e4566f51
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ActivePowerupTimer
+  - hash:
+      serializedVersion: 2
       Hash: 300fd99066f8c288e85f5e81ce65fe34
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_FontAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 36dc39dc057af12cec900668c6a0f4ca
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TimeBody
   - hash:
       serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
@@ -385,6 +418,12 @@ ScriptsOnlyBuild:
     className: IKManager2D
   - hash:
       serializedVersion: 2
+      Hash: 7846bba3f782929b478b194295ce695e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Player1_HeldPowerup
+  - hash:
+      serializedVersion: 2
       Hash: a1aa98c78061c6f03a8c124cda576e67
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -427,7 +466,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 7b5638f1488cf9e6dcac6f05433cf61d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PowerUp
@@ -535,6 +574,12 @@ ScriptsOnlyBuild:
     className: SpriteShapeController
   - hash:
       serializedVersion: 2
+      Hash: 7846bba3f782929b478b194295ce695e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Player2_HeldPowerup
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.InputSystem.dll
     namespaceName: UnityEngine.InputSystem.EnhancedTouch
@@ -625,7 +670,7 @@ ScriptsOnlyBuild:
     className: BaseInput
   - hash:
       serializedVersion: 2
-      Hash: c84bd550b9485f906fa5282b441322a8
+      Hash: 699db3fc9495751f7e8490f6394d8d24
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -953,14 +998,9 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MovingPlatformController
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: TimeBody
   platform: 19
   scenePathNames:
   - Assets/Scenes/Main Menu.unity
-  - Assets/Scenes/SampleScene.unity
-  playerPath: C:/UnityProjects/TAMUGameJamFall21/Animations Added/New Unity Project.exe
+  - Assets/Scenes/Level.unity
+  playerPath: C:/Users/peica/Documents/GitHub/TAMUGameJamFall21/Time Leap/New Unity
+    Project.exe
