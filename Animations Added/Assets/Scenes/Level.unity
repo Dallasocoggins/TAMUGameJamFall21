@@ -1721,7 +1721,7 @@ GameObject:
   - component: {fileID: 1283620696}
   m_Layer: 5
   m_Name: Player1_HeldPowerup
-  m_TagString: Held Powerup
+  m_TagString: Held Powerup 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1958,7 +1958,7 @@ GameObject:
   - component: {fileID: 1667291636}
   m_Layer: 5
   m_Name: Player2_HeldPowerup
-  m_TagString: Held Powerup
+  m_TagString: Held Powerup 2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

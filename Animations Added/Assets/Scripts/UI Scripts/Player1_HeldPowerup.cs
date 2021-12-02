@@ -40,7 +40,7 @@ public class Player1_HeldPowerup : MonoBehaviour
                 image.sprite = powerUpAssets[1];
                 Debug.Log("speed displayed - p1 held powerup");
                 break;
-            case "pause":
+            case "stop":
                 image.sprite = powerUpAssets[2];
                 Debug.Log("stop displayed - p1 held powerup");
                 break;

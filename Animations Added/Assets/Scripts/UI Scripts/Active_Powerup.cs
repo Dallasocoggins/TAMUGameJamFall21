@@ -41,7 +41,7 @@ public class Active_Powerup : MonoBehaviour
                 image.sprite = powerUpAssets[1];
                 Debug.Log("speed displayed");
                 break;
-            case "pause":
+            case "stop":
                 image.sprite = powerUpAssets[2];
                 Debug.Log("stop displayed");
                 break;

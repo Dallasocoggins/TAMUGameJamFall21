@@ -13,7 +13,8 @@ TagManager:
   - Text
   - Powerup Timer
   - Active Powerup
-  - Held Powerup
+  - Held Powerup 2
+  - Held Powerup 1
   layers:
   - Default
   - TransparentFX

@@ -621,17 +621,18 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Power-up"))
         {
             powerUp = powerUpOptions[UnityEngine.Random.Range(0, powerUpOptions.Length)];
-            GameObject heldPowerup = GameObject.FindGameObjectWithTag("Held Powerup");
+            GameObject heldPowerup1 = GameObject.FindGameObjectWithTag("Held Powerup 1");
+            GameObject heldPowerup2 = GameObject.FindGameObjectWithTag("Held Powerup 2");
 
             if (isPlayerOne)
             {
                 Debug.Log("Player 1 collected powerup " + powerUp);
-                heldPowerup.GetComponent<Player1_HeldPowerup>().showActivePowerup(powerUp);
+                heldPowerup1.GetComponent<Player1_HeldPowerup>().showActivePowerup(powerUp);
             }
             else
             {
                 Debug.Log("Player 2 collected powerup " + powerUp);
-                heldPowerup.GetComponent<Player2_HeldPowerup>().showActivePowerup(powerUp);
+                heldPowerup2.GetComponent<Player2_HeldPowerup>().showActivePowerup(powerUp);
             }
 
             collision.gameObject.SendMessage("Collect"); // collision.gameObject gets the game object the Collider 2D is attached to (the power-up)
@@ -670,17 +671,18 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Activating powerup " + powerUp);
 
                 powerUp = "";
-                GameObject heldPowerup = GameObject.FindGameObjectWithTag("Held Powerup");
+                GameObject heldPowerup1 = GameObject.FindGameObjectWithTag("Held Powerup 1");
+                GameObject heldPowerup2 = GameObject.FindGameObjectWithTag("Held Powerup 2");
 
                 if (isPlayerOne)
                 {
                     Debug.Log("Clear player 1 powerup");
-                    heldPowerup.GetComponent<Player1_HeldPowerup>().hideActivePowerup();
+                    heldPowerup1.GetComponent<Player1_HeldPowerup>().hideActivePowerup();
                 }
                 else
                 {
                     Debug.Log("Clear player 2 powerup");
-                    heldPowerup.GetComponent<Player2_HeldPowerup>().hideActivePowerup();
+                    heldPowerup2.GetComponent<Player2_HeldPowerup>().hideActivePowerup();
                 }
             }
             else
